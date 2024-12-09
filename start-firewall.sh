@@ -1,5 +1,5 @@
 #!/bin/bash
-# CS 6250 Fall 2023 - SDN Firewall Project with POX
+# CS 6250 Spring 2023 - SDN Firewall Project with POX
 # build hackers-44
 
 # This code will start up the POX firewall.  This needs to be done BEFORE starting the
@@ -19,6 +19,6 @@ cp $1 ~/pox/pox/firewall/config.pol
 cp sdn-firewall.py ~/pox/pox/firewall/sdnfirewall.py
 cp setup-firewall.py ~/pox/pox/firewall/setupfirewall.py
 pushd ~/pox
-# python pox.py log.level --DEBUG openflow.of_01 forwarding.l2_learning firewall.setupfirewall
+#python pox.py log.level --DEBUG openflow.of_01 forwarding.l2_learning firewall.setupfirewall
 python pox.py openflow.of_01 forwarding.l2_learning firewall.setupfirewall
 popd

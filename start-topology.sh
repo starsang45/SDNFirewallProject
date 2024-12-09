@@ -1,5 +1,5 @@
 #!/bin/bash
-# CS 6250 Spring 2023- SDN Firewall Project with POX
+# CS 6250 Spring 2023 - SDN Firewall Project with POX
 # build hackers-44
 
 # This file will start the Mininet topology.  IF you see an error stating 

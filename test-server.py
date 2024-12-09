@@ -1,6 +1,4 @@
 #!/usr/bin/python
-# CS 6250 Fall 2024 - SDN Firewall Project with POX
-# build hackers-45
 
 import sys
 import socket

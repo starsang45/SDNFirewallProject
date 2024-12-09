@@ -1,6 +1,4 @@
 #!/usr/bin/python
-# CS 6250 Fall 2024 - SDN Firewall Project with POX
-# build hackers-45
 
 import socket
 import sys
@@ -18,7 +16,7 @@ if not (len(sys.argv) >= 4):
 if sys.argv[1] == 'T':
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     if (len(sys.argv) == 5):
-        sock.bind(('0.0.0.0',sys.argv[4]))
+        sock.bind(('0.0.0.0', int(sys.argv[4])))
 elif sys.argv[1] == 'U':
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 elif sys.argv[1] == "G":
