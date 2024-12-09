@@ -44,12 +44,42 @@ def firewall_policy_processing(policies):
         # in Implementation Hints on how to do this. 
         # HINT:  Think about how to use the priority in your flow modification.
 
-        rule = None # Please note that you need to redefine this variable below to create a valid POX Flow Modification Object
+        rule = of.ofp_flow_mod()  # Please note that you need to redefine this variable below to create a valid POX Flow Modification Object
+	
+	# Create match object - Field matching
+        match = of.ofp_match()
 
+        # Set MAC address matching
+        if policy['mac-src'] != '-':
+            match.dl_src = EthAddr(policy['mac-src'])  # Source MAC address
+        if policy['mac-dst'] != '-':
+            match.dl_dst = EthAddr(policy['mac-dst'])  # Destination MAC address
 
-        # End Code Here
-        print('Added Rule ',policy['rulenum'],': ',policy['comment'])
-        #print(rule)   #Uncomment this to debug your "rule"
-        rules.append(rule)
-    
-    return rules
+        # Set IP address matching
+        if policy['ip-src'] != '-':
+            match.nw_src = IPAddr(policy['ip-src'])  # Source IP address
+        if policy['ip-dst'] != '-':
+            match.nw_dst = IPAddr(policy['ip-dst'])  # Destination IP address
+
+        # Set protocol matching (TCP, UDP, etc.)
+        if policy['ipprotocol'] != '-':
+            match.nw_proto = int(policy['ipprotocol'])  # 6: TCP, 17: UDP
+
+        # Set port matching (source and destination ports)
+        if policy['port-src'] != '-':
+            match.tp_src = int(policy['port-src'])  # Source port
+        if policy['port-dst'] != '-':
+            match.tp_dst = int(policy['port-dst'])  # Destination port
+
+        # Set allow/block rule
+        if policy['action'].lower() == 'block':  # Block rule
+            rule.priority = 100  # Set high priority for block rules
+            rule.match = match  # Set matching conditions
+            rule.actions = []  # No action (drop packet for block)
+        elif policy['action'].lower() == 'allow':  # Allow rule
+            rule.priority = 10  # Set low priority for allow rules
+            rule.match = match  # Set matching conditions
+            rule.actions.append(of.ofp_action_output(port=of.OFPP_NORMAL))  # Forward packet for allow
+
+        # Print added rule (for debugging)
+        print('Added Rule ', policy['rulenum'], ': ', policy['comment'])
